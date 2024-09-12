@@ -1,0 +1,132 @@
+.sides-container {
+    padding: 20px;
+    background-color: #444444;
+    border-radius: 8px;
+}
+
+.dice-selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.dice-radio {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    background-color: #555555;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dice-radio:hover {
+    background-color: #666666;
+}
+
+.dice-radio input {
+    margin-right: 10px;
+}
+
+.dice-radio label {
+    padding-right: 10px;
+    color: #ffffff;
+}
+
+.sides-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #333333;
+}
+
+.side-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #555555;
+    height: 36px;
+}
+
+.delete-side {
+    padding: 4px 10px;
+    font-size: 0.9em;
+    height: 28px;
+    line-height: 20px;
+}
+
+.add-sides-form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-sides-form input {
+    flex-grow: 1;
+    padding: 8px;
+    height: 36px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.add-sides-form button {
+    height: 36px;
+    line-height: 32px;
+    padding: 0 15px;
+}
+
+.error {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #555555;
+    border-radius: 4px;
+}
+
+.side-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.edit-side, .delete-side {
+    padding: 4px 10px;
+    font-size: 0.9em;
+    height: 28px;
+    line-height: 20px;
+}
+
+.edit-form {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.edit-form input {
+    flex-grow: 1;
+    padding: 4px 8px;
+    font-size: 14px;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.edit-form button {
+    padding: 4px 10px;
+    font-size: 0.9em;
+    height: 28px;
+    line-height: 20px;
+}

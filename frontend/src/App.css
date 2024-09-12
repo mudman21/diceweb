@@ -1,0 +1,25 @@
+/* 헤더에 적용된 여백 제거 */
+.header {
+    margin: 0;
+    padding: 0;
+}
+
+/* body의 기본 여백 제거 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #333333;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+/* 콘텐츠를 위한 새로운 클래스 */
+.content-container {
+    margin: 20px;
+    padding: 20px;
+    background-color: #444444;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 나머지 app-header 관련 스타일 제거 */

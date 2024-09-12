@@ -1,0 +1,88 @@
+.roll-container {
+    padding: 20px;
+    background-color: #444444;
+    border-radius: 8px;
+}
+
+.dice-selection, .selected-dice, .roll-results, .saved-strings, .generated-sentence {
+    margin-bottom: 25px;
+}
+
+.dice-selection button, .selected-dice button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+}
+
+.roll-results span {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #ffcc00;
+}
+
+.saved-strings ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.saved-strings li {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #555555;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.saved-strings label {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    color: #ffffff;
+}
+
+.string-actions {
+    display: flex;
+    align-items: center;
+}
+
+.string-actions select {
+    margin-right: 10px;
+    padding: 5px;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+    border-radius: 4px;
+}
+
+.string-actions button {
+    height: 30px;
+    padding: 0 15px;
+}
+
+.generated-sentence {
+    background-color: #555555;
+    padding: 15px;
+    border-radius: 5px;
+    color: #ffcc00;
+}
+
+.add-to-dice-section {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #555555;
+    border-radius: 5px;
+}
+
+.add-to-dice-section select {
+    margin-right: 10px;
+    padding: 5px;
+    background-color: #333333;
+    color: #ffffff;
+    border: 1px solid #555555;
+    border-radius: 4px;
+}
+
+/* create-dice-section 관련 스타일 제거 */

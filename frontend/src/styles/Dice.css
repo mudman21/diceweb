@@ -1,0 +1,119 @@
+.dice-container {
+    padding: 20px;
+    background-color: #444444;
+    border-radius: 8px;
+}
+
+.dice-form {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.dice-form input {
+    flex-grow: 1;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    background-color: #333333;
+    color: #ffffff;
+}
+
+.dice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.dice-card {
+    background-color: #555555;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    position: relative;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dice-card:hover {
+    transform: translateY(-5px);
+}
+
+.dice-card h2 {
+    margin: 0 0 12px 0;
+    color: #ffffff;
+    font-size: 1.4rem;
+}
+
+.dice-card p {
+    margin: 0;
+    color: #cccccc;
+    font-size: 1rem;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+.add-btn {
+    padding: 8px 16px;
+    font-size: 16px;
+}
+
+.roll-btn {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.roll-btn:hover {
+    background-color: #45a049;
+}
+
+.roll-result {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    background-color: #666666;
+}
+
+.roll-result span {
+    font-size: 1.2rem;
+    color: #ffcc00;
+}
+
+/* 카드 내부 요소들의 간격 조정 */
+.dice-card h2, .dice-card p, .dice-card button {
+    margin-bottom: 15px;
+}

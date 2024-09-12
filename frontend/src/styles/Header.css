@@ -1,0 +1,82 @@
+.app-header {
+    background-color: #222222;
+    color: white;
+    padding: 15px 5%;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    color: #ffcc00;
+}
+
+.app-header nav {
+    margin-top: 15px;
+}
+
+.app-header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.app-header nav ul li {
+    margin: 5px 30px !important;
+}
+
+.app-header nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s, font-size 0.3s;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.app-header nav ul li a:hover {
+    color: #ffcc00;
+    background-color: #444444;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .app-header {
+        padding: 10px 3%;
+    }
+
+    .app-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .app-header nav ul li a {
+        font-size: 1rem;
+    }
+
+    .app-header nav ul li {
+        margin: 5px 15px !important;  /* !important 추가 */
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        padding: 10px 2%;
+    }
+
+    .app-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .app-header nav ul li a {
+        font-size: 0.9rem;
+    }
+
+    .app-header nav ul li {
+        margin: 5px 10px !important;  /* !important 추가 */
+    }
+}
