@@ -12,6 +12,7 @@ const Sides = () => {
     const [error, setError] = useState(null);
     const [editingSide, setEditingSide] = useState(null);
     const [editValue, setEditValue] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const location = useLocation();
 
@@ -158,6 +159,10 @@ const Sides = () => {
         }
     };
 
+    const filteredSides = sides.filter(side => 
+        side.value.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     if (isLoading) return <div>Loading...</div>;
 
     return (
@@ -180,6 +185,16 @@ const Sides = () => {
 
             {error && <div className="error">{error}</div>}
 
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="면 검색..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                />
+            </div>
+
             <form onSubmit={addSides} className="add-sides-form">
                 <input
                     type="text"
@@ -193,11 +208,11 @@ const Sides = () => {
 
             {selectedDice && (
                 <>
-                    {sides.length === 0 ? (
-                        <p>이 주사위에는 면이 없습니다.</p>
+                    {filteredSides.length === 0 ? (
+                        <p>이 주사위에는 면이 없거나 검색 결과가 없습니다.</p>
                     ) : (
                         <ul className="sides-list">
-                            {sides.filter(side => side.value !== '').map(side => (
+                            {filteredSides.map(side => (
                                 <li key={side.value} className="side-item">
                                     {editingSide && editingSide.value === side.value ? (
                                         <form onSubmit={updateSide} className="edit-form">

@@ -1,48 +1,68 @@
-# Flask & React App
+# Dice Web Application
 
-## 백엔드 설정
-1. `cd backend`
-2. `python3 -m venv venv`
-3. `source venv/bin/activate` (Windows에서는 `venv\Scripts\activate`)
-4. `pip install -r requirements.txt`
-5. `python init_db.py`  # 데이터베이스 초기화
-6. `python run.py`
+이 프로젝트는 주사위를 관리하고 굴릴 수 있는 웹 애플리케이션입니다.
 
-## 프론트엔드 설정
-1. `cd frontend`
-2. `npm install`
-3. `npm start`
+## 주요 기능
 
-## 콘솔 사용법
-1. `python console.py`
-2. 메뉴에서 옵션을 선택하여 주사위를 추가하거나 목록을 확인할 수 있습니다.
-3. 주사위에 면을 추가하거나 면 목록을 확인할 수 있습니다.
+1. 주사위 관리
+   - 새로운 주사위 추가
+   - 기존 주사위 삭제
+   - 주사위 목록 조회
 
-## API 사용법
-### 주사위 추가
-- Endpoint: `/api/add_dice`
-- Method: `POST`
-- Request Body: `{"name": "<dice_name>"}`
-- Response: `{"name": "<dice_name>"}`
+2. 주사위 면 관리
+   - 주사위에 면 추가
+   - 기존 면 수정 및 삭제
+   - 면 검색 기능
 
-### 면 추가
-- Endpoint: `/api/add_sides`
-- Method: `POST`
-- Request Body: `{"dice_id": <dice_id>, "values": ["<side_value1>", "<side_value2>", ...]}`
-- Response: `{"sides": ["<side_value1>", "<side_value2>", ...]}`
+3. 주사위 굴리기
+   - 선택한 주사위 굴리기
+   - 결과 저장 및 조회
 
-### 주사위 목록 조회
-- Endpoint: `/api/list_dice`
-- Method: `GET`
-- Response: `[{"id": <dice_id>, "name": "<dice_name>"}, ...]`
+4. 데이터베이스 내보내기
+   - 현재 데이터베이스 상태를 텍스트 파일로 내보내기
 
-### 주사위 면 목록 조회
-- Endpoint: `/api/list_sides/<dice_id>`
-- Method: `GET`
-- Response: `[{"value": "<side_value>"}, ...]`
+## 기술 스택
 
-### 주사위 굴리기
-- Endpoint: `/api/roll_dice`
-- Method: `POST`
-- Request Body: `{"dice_ids": [<dice_id1>, <dice_id2>, ...]}`
-- Response: `{"results": [{"dice_id": <dice_id>, "result": "<side_value>"}, ...]}`
+- Frontend: React.js
+- Backend: Flask (Python)
+- Database: SQLite
+
+## 설치 및 실행 방법
+
+1. 저장소 클론
+   ```
+   git clone https://github.com/mudman21/diceweb.git
+   cd diceweb
+   ```
+
+2. 백엔드 설정
+   ```
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   python run.py
+   ```
+
+3. 프론트엔드 설정
+   ```
+   cd frontend
+   npm install
+   npm start
+   ```
+
+4. 브라우저에서 `http://localhost:3000` 접속
+
+## 최근 업데이트
+
+- 주사위 카드 디자인 개선
+- 주사위 면 검색 기능 추가
+- 데이터베이스 내보내기 기능 추가
+
+## 기여 방법
+
+이슈를 제출하거나 풀 리퀘스트를 보내주세요. 모든 기여를 환영합니다!
+
+## 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 있습니다.
