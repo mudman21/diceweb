@@ -11,13 +11,13 @@ class CombinedSentence(BaseModel):
 class SentenceGenerator:
     @staticmethod
     def generate_sentence(words: str) -> str:
-        prompt = f"기존의 단어들을 유지하며 맞춤법을 지키고, 문장이나 구절을 다듬어주세요.: {words}"
+        prompt = f"기존의 단어들을 유지하며 맞춤법을 지키고, 문장이나 구절을 다듬어주세요. 문장은 세련되며 정갈하게: {words}"
  
         try:
             completion = client.chat.completions.create(
-                model="gpt-4-turbo", # 또는 사용 가능한 다른 모델
+                model="gpt-4o-2024-08-06", # 또는 사용 가능한 다른 모델
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.5,
+                temperature=0.2,
                 max_tokens=100
             )
             return completion.choices[0].message.content.strip()

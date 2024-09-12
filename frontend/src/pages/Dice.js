@@ -3,57 +3,40 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/Dice.css';
 import '../styles/Button.css';
 
-function Dice() {
-    const navigate = useNavigate();
-    const [diceData, setDiceData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+const Dice = () => {
+    const [diceList, setDiceList] = useState([]);
     const [newDiceName, setNewDiceName] = useState('');
-    const [rollResults, setRollResults] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [diceToDelete, setDiceToDelete] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        fetchDiceData();
+        fetchDiceList();
     }, []);
 
-    const fetchDiceData = async () => {
+    const fetchDiceList = async () => {
         try {
+            setIsLoading(true);
             const response = await fetch('/api/list_dice');
             if (!response.ok) {
-                throw new Error('서버에서 데이터를 가져오는데 실패했습니다.');
+                throw new Error('Failed to fetch dice list');
             }
             const data = await response.json();
-            const diceWithSides = await Promise.all(data.map(async (dice) => {
-                const sidesResponse = await fetch(`/api/dice_sides_count/${dice.id}`);
-                if (sidesResponse.ok) {
-                    const sidesData = await sidesResponse.json();
-                    return { ...dice, sides_count: sidesData.sides_count };
-                }
-                return dice;
-            }));
-            setDiceData(diceWithSides);
-            setIsLoading(false);
-        } catch (err) {
-            setError(err.message);
+            setDiceList(data);
+        } catch (error) {
+            console.error('Error fetching dice list:', error);
+            setError('Failed to load dice list. Please try again later.');
+        } finally {
             setIsLoading(false);
         }
     };
 
-    const handleDelete = async (id) => {
-        try {
-            const response = await fetch(`/api/delete_dice/${id}`, {
-                method: 'DELETE',
-            });
-            if (!response.ok) {
-                throw new Error('주사위를 삭제하는데 실패했습니다.');
-            }
-            setDiceData(diceData.filter(dice => dice.id !== id));
-        } catch (err) {
-            setError(err.message);
-        }
-    };
-
-    const handleAddDice = async (e) => {
+    const addDice = async (e) => {
         e.preventDefault();
+        if (!newDiceName.trim()) return;
+
         try {
             const response = await fetch('/api/add_dice', {
                 method: 'POST',
@@ -63,16 +46,45 @@ function Dice() {
                 body: JSON.stringify({ name: newDiceName }),
             });
             if (!response.ok) {
-                throw new Error('주사위를 추가하는데 실패했습니다.');
+                throw new Error('Failed to add dice');
             }
-            fetchDiceData();
             setNewDiceName('');
-        } catch (err) {
-            setError(err.message);
+            fetchDiceList();
+        } catch (error) {
+            console.error('Error adding dice:', error);
+            setError('Failed to add dice. Please try again.');
         }
     };
 
-    const handleRoll = async (diceId) => {
+    const openDeleteModal = (dice) => {
+        setDiceToDelete(dice);
+        setDeleteModalOpen(true);
+    };
+
+    const closeDeleteModal = () => {
+        setDeleteModalOpen(false);
+        setDiceToDelete(null);
+    };
+
+    const deleteDice = async () => {
+        if (!diceToDelete) return;
+
+        try {
+            const response = await fetch(`/api/delete_dice/${diceToDelete.id}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete dice');
+            }
+            fetchDiceList();
+            closeDeleteModal();
+        } catch (error) {
+            console.error('Error deleting dice:', error);
+            setError('Failed to delete dice. Please try again.');
+        }
+    };
+
+    const rollDice = async (diceId) => {
         try {
             const response = await fetch('/api/roll_dice', {
                 method: 'POST',
@@ -82,31 +94,30 @@ function Dice() {
                 body: JSON.stringify({ dice_ids: [diceId] }),
             });
             if (!response.ok) {
-                throw new Error('주사위를 굴리는데 실패했습니다.');
+                throw new Error('Failed to roll dice');
             }
             const data = await response.json();
-            const result = data.results[0].result;
-            
-            setRollResults(prev => ({
-                ...prev,
-                [diceId]: result
-            }));
-        } catch (err) {
-            setError(err.message);
+            const updatedDiceList = diceList.map(dice => 
+                dice.id === diceId ? { ...dice, rollResult: data.results[0].result } : dice
+            );
+            setDiceList(updatedDiceList);
+        } catch (error) {
+            console.error('Error rolling dice:', error);
+            setError('Failed to roll dice. Please try again.');
         }
     };
 
-    const handleCardClick = (diceId) => {
+    const handleDiceClick = (diceId) => {
         navigate(`/sides?dice=${diceId}`);
     };
 
-    if (isLoading) return <div>로딩 중...</div>;
-    if (error) return <div>에러: {error}</div>;
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <div className="dice-container">
-            <h1>주사위 관리</h1>
-            <form onSubmit={handleAddDice} className="dice-form">
+            <h2>주사위 관리</h2>
+            <form onSubmit={addDice} className="dice-form">
                 <input
                     type="text"
                     value={newDiceName}
@@ -114,25 +125,44 @@ function Dice() {
                     placeholder="새 주사위 이름"
                     required
                 />
-                <button type="submit" className="primary add-btn">+</button>
+                <button type="submit" className="primary add-btn">추가</button>
             </form>
             <div className="dice-grid">
-                {diceData.map((dice) => (
-                    <div key={dice.id} className="dice-card" onClick={() => handleCardClick(dice.id)}>
-                        <button className="delete-btn" onClick={(e) => { e.stopPropagation(); handleDelete(dice.id); }}>X</button>
-                        <h2>{dice.name}</h2>
-                        <p>{dice.sides_count || 0}면 주사위</p>
-                        <button className="roll-btn" onClick={(e) => { e.stopPropagation(); handleRoll(dice.id); }}>ROLL</button>
-                        {rollResults[dice.id] && (
+                {diceList.map(dice => (
+                    <div key={dice.id} className="dice-card" onClick={() => handleDiceClick(dice.id)}>
+                        <div className="dice-card-header">
+                            <h2>{dice.name}</h2>
+                            <button onClick={(e) => {
+                                e.stopPropagation();
+                                openDeleteModal(dice);
+                            }} className="delete-btn">X</button>
+                        </div>
+                        <div className="dice-card-content">
+                            <p className="sides-count">{dice.sides_count}면</p>
                             <div className="roll-result">
-                                <span>{rollResults[dice.id]}</span>
+                                {dice.rollResult && <span>{dice.rollResult}</span>}
                             </div>
-                        )}
+                        </div>
+                        <button onClick={(e) => {
+                            e.stopPropagation();
+                            rollDice(dice.id);
+                        }} className="roll-btn">굴리기</button>
                     </div>
                 ))}
             </div>
+            {deleteModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p>정말로 "{diceToDelete?.name}" 주사위를 삭제하시겠습니까?</p>
+                        <div className="modal-buttons">
+                            <button onClick={deleteDice} className="confirm">삭제</button>
+                            <button onClick={closeDeleteModal} className="cancel">취소</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
-}
+};
 
 export default Dice;

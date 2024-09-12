@@ -1,6 +1,9 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request, current_app, send_file
 from app.models import SavedString
 from app.sentence_generator import SentenceGenerator
+import io
+import json
+from datetime import datetime
 
 main = Blueprint('main', __name__)
 
@@ -37,7 +40,7 @@ def add_sides():
 @main.route('/api/list_dice', methods=['GET'])
 def list_dice():
     dice_list = current_app.dice_manager.list_dice()
-    return jsonify([{"id": dice.id, "name": dice.name} for dice in dice_list]), 200
+    return jsonify([{"id": dice.id, "name": dice.name, "sides_count": len(dice.sides)} for dice in dice_list]), 200
 
 @main.route('/api/list_sides/<int:dice_id>', methods=['GET'])
 def list_sides(dice_id):
@@ -175,3 +178,40 @@ def update_side(dice_id):
         return jsonify({"message": "Side updated successfully"}), 200
     else:
         return jsonify({"error": "Side not found or dice not found"}), 404
+
+@main.route('/api/export_database', methods=['GET'])
+def export_database():
+    dice_list = current_app.dice_manager.list_dice()
+    saved_strings = current_app.dice_manager.get_saved_strings()
+
+    export_data = {
+        "dice": [],
+        "saved_strings": saved_strings
+    }
+
+    for dice in dice_list:
+        dice_data = {
+            "id": dice.id,
+            "name": dice.name,
+            "sides": [side.value for side in dice.sides]
+        }
+        export_data["dice"].append(dice_data)
+
+    # Convert to JSON string
+    json_data = json.dumps(export_data, ensure_ascii=False, indent=2)
+
+    # Create in-memory file
+    mem_file = io.BytesIO()
+    mem_file.write(json_data.encode('utf-8'))
+    mem_file.seek(0)
+
+    # Generate filename with current date and time
+    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f'database_export_{current_time}.txt'
+
+    return send_file(
+        mem_file,
+        as_attachment=True,
+        download_name=filename,
+        mimetype='text/plain'
+    )
